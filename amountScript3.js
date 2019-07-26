@@ -76,15 +76,22 @@ function convertAmountToWords(amount,currencyType='Arabic') {
                     returnString += groupWord[i]+","+groupPlace[i];
                 } 
             } else {
-                returnString += groupWord[i]+","+groupPlace[i];
-                if(groupWord[i]!='' && groupWord[i+1]!='')
+                //console.log(groupWord[i]);
+                    let temp_brokenGroupWord = groupWord[i].split(',');
+                    let temp_brokenGroupWord_lastNumber = parseInt(temp_brokenGroupWord[temp_brokenGroupWord.length-1]);
+                if(temp_brokenGroupWord_lastNumber<=10) {
+                    returnString += groupWord[i]+groupPlace[i];
+                } else {
+                    returnString += groupWord[i]+","+groupPlace[i];
+                }
+                if(groupWord[i]!='' && groupWord[i-1]!='' && groupWord[i]!=undefined && groupWord[i-1]!=undefined && groupWord[i]!='undefined' && groupWord[i-1]!='undefined' )
                     returnString += ',and,'
             }
         }
         
         console.log(returnString);
     
-    return amount;
+    return returnString;
 
 }
 
@@ -94,7 +101,7 @@ function convert3digitNumberToWord_Arabic(subAmount) {
     subAmount = parseInt(subAmount); 
     
         if(parseInt(subAmount/100) > 1) {
-            returnAmount[0] = parseInt(subAmount/100)+","+"Hundred";
+            returnAmount[0] = parseInt(subAmount/100)+"Hundred";
         } else if( parseInt(subAmount/100) == 1) {
             returnAmount[0] = 'Hundred';
         } else {
@@ -102,48 +109,21 @@ function convert3digitNumberToWord_Arabic(subAmount) {
         }
 
         subAmount = subAmount%100;
-        if(parseInt(subAmount/10) > 10) {
-            returnAmount[1] = parseInt(subAmount/10)*10;
-        } else {
-            returnAmount[1] = '';
-        }
+        subAmount = parseInt(subAmount);
+        returnAmount[1] = subAmount
 
-        subAmount = subAmount%10;
-        if(parseInt(subAmount) > 0) {
-            returnAmount[2] = parseInt(subAmount);
-        } else {
-            returnAmount[2] = '';
-        }
-
-        arabicReturnAmount = [];
-        arabicReturnAmount[0] = returnAmount[0];
-        arabicReturnAmount[1] = returnAmount[1];
-        arabicReturnAmount[2] = returnAmount[2];
 
         returnString = '';
-        // if(arabicReturnAmount[0]!='') {
-        //     returnString += arabicReturnAmount[0];
-        //     if(arabicReturnAmount[0]!='' && arabicReturnAmount[1]!='')
-        //         returnString += ',and,'
-        // }
 
-        // if(arabicReturnAmount[1]!='') {
-        //     returnString += arabicReturnAmount[1];
-        //     if(arabicReturnAmount[1]!='' && arabicReturnAmount[2]!='')
-        //         returnString += ',and,'
-        // }
-
-        // if(arabicReturnAmount[2]!='') {
-        //     returnString += arabicReturnAmount[2];
-        // }
-
-        for(let i = 0; i < arabicReturnAmount.length; i++) {
-            if(i ==  arabicReturnAmount.length-1 ) {
-                returnString += arabicReturnAmount[i];
+        for(let i = 0; i < returnAmount.length; i++) {
+            if(i ==  returnAmount.length-1 ) {
+                returnString += returnAmount[i];
             } else {
-            returnString += arabicReturnAmount[i];
-            if(arabicReturnAmount[i]!='' && arabicReturnAmount[i+1]!='')
-                returnString += ',and,'
+            returnString += returnAmount[i];
+            // if(returnAmount[i]!='' && returnAmount[i+1]!='')
+            //     returnString += ',and,'
+            if(returnAmount[i]!='' && returnAmount[i+1]!='')
+                returnString += ','
             }
         }
 
@@ -152,7 +132,4 @@ function convert3digitNumberToWord_Arabic(subAmount) {
     return returnString;
 }
 
-console.log(convertAmountToWords('165265789.87') );
-
-// TODO : when there is a 0 or '' in two array element addition of 'and' fails;
-// TODO : decimal part needs a differnt handling than integralPart : current 80 is interpreted as 8 --- DONE
+console.log(convertAmountToWords('3202510648.8') );
