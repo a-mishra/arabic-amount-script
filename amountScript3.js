@@ -10,6 +10,8 @@ function convertAmountToWords(amount,currencyType='Arabic') {
 
         amount = amount.split('.')
         let integralPart = amount[0];
+        integralPart = integralPart.replace(',', '');
+
         let decimalPart = amount[1];
         
             if(decimalPart != undefined) {
@@ -132,4 +134,4 @@ function convert3digitNumberToWord_Arabic(subAmount) {
     return returnString;
 }
 
-console.log(convertAmountToWords('3202510648.8') );
+console.log(convertAmountToWords('200,520,560') );
