@@ -94,11 +94,20 @@ function convertAmountToWords(amount, currencyType = 'Arabic') {
                         returnString += "," + groupPlace[1] + ",and," + groupWord[0] + "," + groupPlace[0];
                     }
                 } else {
-                    if (G[0] == 0 || G[0] == undefined){
-                        returnString += "," + groupPlace[1];
-                    }
-                    else{
-                        returnString += "," + groupPlace[1] + ",and," + groupWord[0] + "," + groupPlace[0];
+                    if ( (G[i] % 100) <= 10 && G[i] > 0) {
+                        if (G[0] == 0 || G[0] == undefined){
+                            returnString += "," +  groupWord[i] + groupPlace[1];
+                        }
+                        else{
+                            returnString += "," + groupWord[i] + groupPlace[1] + ",and," + groupWord[0] + "," + groupPlace[0];
+                        }
+                    } else {
+                        if (G[0] == 0 || G[0] == undefined){
+                            returnString += "," +  groupWord[i] + ","+ groupPlace[1];
+                        }
+                        else{
+                            returnString += "," + groupWord[i] + ","+ groupPlace[1] + ",and," + groupWord[0] + "," + groupPlace[0];
+                        }
                     }
                 } 
 
@@ -178,4 +187,4 @@ function removeRepeatedCommas(inputString) {
     return outputString;
 }
 
-console.log(convertAmountToWords('340000.78'));
+console.log(convertAmountToWords('2,520,050.07'));
