@@ -74,20 +74,35 @@ function convertAmountToWords(amount, currencyType = 'Arabic') {
     let returnString = '';
 
     for (let i = groupWord.length - 1; i > 0; i--) {
+        console.log("iteration i = :"+i);
         if (i == 0) {
             if (groupWord[i] != '' && groupWord[i] != undefined && groupWord[i] != 'undefined') {
+                console.log("ECEX3");
                 returnString += groupWord[i] + "," + groupPlace[i];
             }
         } else {
-            //console.log(groupWord[i]);
+            console.log("groupWord at i: "+groupWord[i]);
             let temp_brokenGroupWord = groupWord[i].split(',');
-            let temp_brokenGroupWord_lastNumber = parseInt(temp_brokenGroupWord[temp_brokenGroupWord.length - 1]);
+            //let temp_brokenGroupWord_lastNumber = parseInt(temp_brokenGroupWord[temp_brokenGroupWord.length - 1]);
 
-            if (i == 1 && G[i] == 0) {
-                if (G[0] == 0 || G[0] == undefined)
-                    returnString += "," + groupPlace[1];
-                else
-                    returnString += "," + groupPlace[1] + ",and," + groupWord[0] + "," + groupPlace[0];
+            if (i == 1) {
+                if(G[i] == 0){
+                    if (G[0] == 0 || G[0] == undefined){
+                        returnString += "," + groupPlace[1];
+                    }
+                    else{
+                        returnString += "," + groupPlace[1] + ",and," + groupWord[0] + "," + groupPlace[0];
+                    }
+                } else {
+                    if (G[0] == 0 || G[0] == undefined){
+                        returnString += "," + groupPlace[1];
+                    }
+                    else{
+                        returnString += "," + groupPlace[1] + ",and," + groupWord[0] + "," + groupPlace[0];
+                    }
+                } 
+
+
             } else if ((G[i] % 100) < 100 && (G[i] % 100) > 10) {
                 returnString += groupWord[i] + "," + groupPlace[i];
             } else if ((G[i] % 100) <= 10 && G[i] > 0) {
@@ -102,10 +117,9 @@ function convertAmountToWords(amount, currencyType = 'Arabic') {
 
         }
     }
-
+    console.log(returnString);
     returnString = removeRepeatedCommas(returnString);
 
-    console.log(returnString);
     return returnString;
 
 }
@@ -164,4 +178,4 @@ function removeRepeatedCommas(inputString) {
     return outputString;
 }
 
-console.log(convertAmountToWords('1,000,000,000'));
+console.log(convertAmountToWords('340000.78'));
