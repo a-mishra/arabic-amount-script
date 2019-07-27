@@ -80,6 +80,10 @@ function convertAmountToWords(amount,currencyType='Arabic') {
                 if(groupWord[i]!='' && groupWord[i+1]!='')
                     returnString += ',and,'
             }
+
+            if(groupWord[i]!='' && groupWord[i-1]!='' && groupWord[i]!=undefined && groupWord[i-1]!=undefined && groupWord[i]!='undefined' && groupWord[i-1]!='undefined' )
+            returnString += ',and,';
+
         }
         
         console.log(returnString);
