@@ -10,7 +10,9 @@ function convertAmountToWords(amount,currencyType='Arabic') {
 
         amount = amount.split('.')
         let integralPart = amount[0];
-        integralPart = integralPart.replace(',', '');
+
+        var regex = /,/gi
+        integralPart = integralPart.replace(regex, '');
 
         let decimalPart = amount[1];
         
@@ -81,11 +83,18 @@ function convertAmountToWords(amount,currencyType='Arabic') {
                 //console.log(groupWord[i]);
                     let temp_brokenGroupWord = groupWord[i].split(',');
                     let temp_brokenGroupWord_lastNumber = parseInt(temp_brokenGroupWord[temp_brokenGroupWord.length-1]);
-                if(temp_brokenGroupWord_lastNumber<=10) {
+                    let is_GroupWord_less_than_hunderd = 'false';
+
+                    if(G[i] < 100) {
+                        is_GroupWord_less_than_hunderd = 'true';
+                    }
+
+                if(temp_brokenGroupWord_lastNumber<=10 && is_GroupWord_less_than_hunderd==true) {
                     returnString += groupWord[i]+groupPlace[i];
                 } else {
                     returnString += groupWord[i]+","+groupPlace[i];
                 }
+
                 if(groupWord[i]!='' && groupWord[i-1]!='' && groupWord[i]!=undefined && groupWord[i-1]!=undefined && groupWord[i]!='undefined' && groupWord[i-1]!='undefined' )
                     returnString += ',and,'
             }
@@ -112,7 +121,10 @@ function convert3digitNumberToWord_Arabic(subAmount) {
 
         subAmount = subAmount%100;
         subAmount = parseInt(subAmount);
-        returnAmount[1] = subAmount
+        returnAmount[1] = subAmount;
+
+        if(returnAmount[1] == 0)
+        returnAmount[1] = String('');
 
 
         returnString = '';
@@ -122,10 +134,14 @@ function convert3digitNumberToWord_Arabic(subAmount) {
                 returnString += returnAmount[i];
             } else {
             returnString += returnAmount[i];
+
+            // if you want to place an 'and' inside group words too then uncommet below line and comment the next;
             // if(returnAmount[i]!='' && returnAmount[i+1]!='')
-            //     returnString += ',and,'
+            //     returnString += ',and,';
+
             if(returnAmount[i]!='' && returnAmount[i+1]!='')
-                returnString += ','
+                returnString += ',';
+
             }
         }
 
@@ -134,4 +150,4 @@ function convert3digitNumberToWord_Arabic(subAmount) {
     return returnString;
 }
 
-console.log(convertAmountToWords('200,520,560') );
+console.log(convertAmountToWords('200,301,560') );
