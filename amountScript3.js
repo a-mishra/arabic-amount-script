@@ -83,20 +83,20 @@ function convertAmountToWords(amount,currencyType='Arabic') {
                 //console.log(groupWord[i]);
                     let temp_brokenGroupWord = groupWord[i].split(',');
                     let temp_brokenGroupWord_lastNumber = parseInt(temp_brokenGroupWord[temp_brokenGroupWord.length-1]);
-                    let is_GroupWord_less_than_hunderd = 'false';
 
-                    if(G[i] < 100) {
-                        is_GroupWord_less_than_hunderd = 'true';
-                    }
-
-                if(temp_brokenGroupWord_lastNumber<=10 && is_GroupWord_less_than_hunderd==true) {
+                
+                if( (G[i]%100)<100 && (G[i]%100)>10){
+                    returnString += groupWord[i]+","+groupPlace[i];
+                } else if( (G[i]%100) <= 10 ) {
                     returnString += groupWord[i]+groupPlace[i];
                 } else {
                     returnString += groupWord[i]+","+groupPlace[i];
                 }
 
+
                 if(groupWord[i]!='' && groupWord[i-1]!='' && groupWord[i]!=undefined && groupWord[i-1]!=undefined && groupWord[i]!='undefined' && groupWord[i-1]!='undefined' )
-                    returnString += ',and,'
+                    returnString += ',and,';
+                    
             }
         }
         
@@ -133,14 +133,14 @@ function convert3digitNumberToWord_Arabic(subAmount) {
             if(i ==  returnAmount.length-1 ) {
                 returnString += returnAmount[i];
             } else {
-            returnString += returnAmount[i];
+                returnString += returnAmount[i];
 
-            // if you want to place an 'and' inside group words too then uncommet below line and comment the next;
-            // if(returnAmount[i]!='' && returnAmount[i+1]!='')
-            //     returnString += ',and,';
+                // if you want to place an 'and' inside group words too then uncommet below line and comment the next;
+                // if(returnAmount[i]!='' && returnAmount[i+1]!='')
+                //     returnString += ',and,';
 
-            if(returnAmount[i]!='' && returnAmount[i+1]!='')
-                returnString += ',';
+                if(returnAmount[i]!='' && returnAmount[i+1]!='')
+                    returnString += ',';
 
             }
         }
@@ -150,4 +150,4 @@ function convert3digitNumberToWord_Arabic(subAmount) {
     return returnString;
 }
 
-console.log(convertAmountToWords('200,301,560') );
+console.log(convertAmountToWords('1,020,560') );
